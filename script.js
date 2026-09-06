@@ -30,5 +30,6 @@ skipButtons[1].addEventListener("click", (e) => {
 video.addEventListener("timeupdate", () => {
   const percent = (video.currentTime / video.duration) * 100;
   progressBar.style.flexBasis = `${percent}%`;
+  progressBar.style.width = `${percent}%`;
 });
 
