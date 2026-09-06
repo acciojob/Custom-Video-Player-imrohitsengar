@@ -1,0 +1,4 @@
+{
+    "testRepo": "Custom-Video-Player-Solution",
+    "pathToFile": "cypress/integration/tests/test.spec.js"
+}
