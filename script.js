@@ -27,8 +27,18 @@ skipButtons[0].addEventListener("click", (e) => {
 skipButtons[1].addEventListener("click", (e) => {
   video.currentTime += Number(skipButtons[1].dataset.skip);
 });
+video.addEventListener("click", () => {
+  if (video.paused) {
+    video.play();
+    toggle.textContent = "❚ ❚";
+  } else {
+    video.pause();
+    toggle.textContent = "►";
+  }
+});
+
 function handleProgress() {
-  const percent = video.duration ? (video.currentTime / video.duration) * 100 : 0;
+  const percent = (video.currentTime / video.duration) * 100;
   progressBar.style.flexBasis = `${percent}%`;
   progressBar.style.width = `${percent}%`;
 }
@@ -38,6 +48,7 @@ video.addEventListener("timeupdate", handleProgress);
 function scrub(e) {
   const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
   video.currentTime = scrubTime;
+  handleProgress();
 }
 
 progress.addEventListener("click", scrub);
