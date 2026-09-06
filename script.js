@@ -36,10 +36,10 @@ video.addEventListener("click", () => {
     toggle.textContent = "►";
   }
 });
-
 function handleProgress() {
   const percent = (video.currentTime / video.duration) * 100;
   progressBar.style.flexBasis = `${percent}%`;
+  progressBar.style.flex = `0 0 ${percent}%`;
   progressBar.style.width = `${percent}%`;
 }
 
@@ -56,4 +56,7 @@ let mousedown = false;
 progress.addEventListener("mousemove", (e) => mousedown && scrub(e));
 progress.addEventListener("mousedown", () => (mousedown = true));
 window.addEventListener("mouseup", () => (mousedown = false));
+
+
+
 
