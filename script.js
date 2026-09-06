@@ -27,9 +27,22 @@ skipButtons[0].addEventListener("click", (e) => {
 skipButtons[1].addEventListener("click", (e) => {
   video.currentTime += Number(skipButtons[1].dataset.skip);
 });
-video.addEventListener("timeupdate", () => {
-  const percent = (video.currentTime / video.duration) * 100;
+function handleProgress() {
+  const percent = video.duration ? (video.currentTime / video.duration) * 100 : 0;
   progressBar.style.flexBasis = `${percent}%`;
   progressBar.style.width = `${percent}%`;
-});
+}
+
+video.addEventListener("timeupdate", handleProgress);
+
+function scrub(e) {
+  const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
+  video.currentTime = scrubTime;
+}
+
+progress.addEventListener("click", scrub);
+let mousedown = false;
+progress.addEventListener("mousemove", (e) => mousedown && scrub(e));
+progress.addEventListener("mousedown", () => (mousedown = true));
+window.addEventListener("mouseup", () => (mousedown = false));
 
