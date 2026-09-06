@@ -6,72 +6,31 @@ const progressBar = player.querySelector('.progress__filled');
 const toggle = player.querySelector('.toggle');
 const skipButtons = player.querySelectorAll('[data-skip]');
 const ranges = player.querySelectorAll('.player__slider');
-function togglePlay() {
+toggle.addEventListener("click", (e) => {
   if (video.paused) {
     video.play();
+    toggle.textContent = "❚ ❚";
   } else {
     video.pause();
-  }
-}
-
-function updateButton() {
-  toggle.textContent = video.paused ? "►" : "❚ ❚";
-}
-
-function handleRangeUpdate() {
-  video[this.name] = this.value;
-}
-
-function skip() {
-  video.currentTime += Number(this.dataset.skip);
-}
-
-function handleProgress() {
-  const percent = (video.currentTime / video.duration) * 100;
-  progressBar.style.flexBasis = `${percent}%`;
-  progressBar.style.width = `${percent}%`;
-}
-
-function scrub(event) {
-  const scrubTime = (event.offsetX / progress.offsetWidth) * video.duration;
-  video.currentTime = scrubTime;
-}
-
-video.addEventListener("click", togglePlay);
-video.addEventListener("play", updateButton);
-video.addEventListener("pause", updateButton);
-video.addEventListener("timeupdate", handleProgress);
-
-toggle.addEventListener("click", togglePlay);
-
-skipButtons.forEach((button) => {
-  button.addEventListener("click", skip);
-});
-
-ranges.forEach((range) => {
-  range.addEventListener("change", handleRangeUpdate);
-  range.addEventListener("mousemove", handleRangeUpdate);
-  range.addEventListener("input", handleRangeUpdate);
-});
-
-let mouseDown = false;
-
-progress.addEventListener("click", scrub);
-
-progress.addEventListener("mousemove", (event) => {
-  if (mouseDown) {
-    scrub(event);
+    toggle.textContent = "►";
   }
 });
-
-progress.addEventListener("mousedown", () => {
-  mouseDown = true;
+ranges[0].addEventListener("input", (e) => {
+  video.volume = Number(ranges[0].value);
 });
-
-progress.addEventListener("mouseup", () => {
-  mouseDown = false;
+ranges[1].addEventListener("input", (e) => {
+  video.playbackRate = Number(ranges[1].value);
 });
-
+skipButtons[0].addEventListener("click", (e) => {
+  video.currentTime += Number(skipButtons[0].dataset.skip);
+});
+skipButtons[1].addEventListener("click", (e) => {
+  video.currentTime += Number(skipButtons[1].dataset.skip);
+});
+video.addEventListener("timeupdate", () => {
+     let percentage = (video.currentTime / video.duration) * 100;
+    progressBar.style.flexBasis = `${percentage}%`;
+});
 
 
 
